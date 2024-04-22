@@ -6,13 +6,21 @@ import { db } from "./data/db";
 
 export default function App() {
   // States
-  const [data, setData] = useState(db) //Para un archivo local es adecuado extraer los datos al hook de esta manera
+  const [data, setData] = useState(db); //Para un archivo local es adecuado extraer los datos al hook de esta manera
+  const [cart, setCart] = useState([]);
   /**
     Para el manejo de API's es recomendable utilizar useEffect
     useEffect(() => (
       setData(db)
     ), [])
   **/
+
+  function addToCart(item) {
+    const itemExists = cart.findIndex(guitar => guitar.id === item.id);
+    console.log(itemExists);
+
+    setCart(prevCart => [...prevCart, item]);
+  }
 
   return (
     <>
@@ -25,6 +33,8 @@ export default function App() {
             <Guitar
               key={guitar.id} //key debe de contener un valor único
               guitar={guitar}
+              setCart={setCart}
+              addToCart={addToCart}
             />
           ))}
         </div>
